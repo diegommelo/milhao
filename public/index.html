@@ -27,7 +27,7 @@
                                             <td>{{room.id}}</td>
                                             <td>{{room.sockets.length}}</td>
                                             <td>
-                                                <button v-if="!room_id" class="button" @click="joinRoom(room.id)">Join</button>
+                                                <button v-if="playerIsInRoom(player.id,room.id)" class="button" @click="joinRoom(room.id)">Join</button>
                                                 <button v-else class="button" @click="leaveRoom">Leave</button>
                                             </td>
                                         </tr>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div>
-                        <button v-if="!room_id" class="button" @click="createRoom">Create Room</button>
+                        <button class="button" @click="createRoom">Create Room</button>
                     </div>
                 </div>
             </section>

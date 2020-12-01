@@ -19,8 +19,15 @@ var app = new Vue({
         listRooms: function(){
             this.socket.emit('listRooms');
         },
-        leaveRoom: function(room_id) {
-            this.socket.emit('leaveRoom', room_id);
+        leaveRoom: function() {
+            this.socket.emit('leaveRoom', this.player.room);
+        },
+        playerIsInRoom: function(player_id,room_id){
+            if(this.rooms[room_id].sockets.indexOf(player_id)!==-1){
+                return false;
+            } else {
+                return true;
+            }
         }
     },
     created: function() {
@@ -30,8 +37,8 @@ var app = new Vue({
         this.socket.on('playerJoinedRoom', (data) =>{
             this.player.room = data;
         });
-        this.socket.on('playerLeavedRoom', (data) => {
-            console.log('saiu');
+        this.socket.on('playerLeavedRoom', () => {
+            delete this.player.room;
         });
         this.socket.on('playerConnected', (data) =>{
             this.player.id = data;
