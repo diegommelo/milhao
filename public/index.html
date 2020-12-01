@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Socket.io simple chat</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.css" />
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="app">
+            <section class="section" id="selectroom">
+                <div class="container">
+                    <p class="title">hello {{player.id}}</p>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="table-container">
+                                <table class="table is-striped is-hoverable is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th><abbr title="Room">Room</abbr></th>
+                                            <th><abbr title="Players"># Players</abbr></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="room in rooms">
+                                            <td>{{room.id}}</td>
+                                            <td>{{room.sockets.length}}</td>
+                                            <td>
+                                                <button v-if="!room_id" class="button" @click="joinRoom(room.id)">Join</button>
+                                                <button v-else class="button" @click="leaveRoom">Leave</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button v-if="!room_id" class="button" @click="createRoom">Create Room</button>
+                    </div>
+                </div>
+            </section>
+            <section class="section" id="gameroom">
+
+            </section>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+            
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="js/main.js"></script>            
+    </body>
+</html>
