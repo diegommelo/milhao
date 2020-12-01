@@ -3,6 +3,7 @@ const socket = require("socket.io");
 //const uuid = require('uuid')
 const {nanoid} = require('nanoid');
 const _ = require('lodash');
+const game = require('./server/game.js');
 
 // App setup
 const PORT = 5000;
@@ -10,6 +11,8 @@ const app = express();
 const server = app.listen(PORT);
 
 const rooms = {}
+
+
 
 // server io functions
 const createRoom = function(socket){
@@ -43,6 +46,7 @@ const leaveRoom = function(room_id, socket){
   }
 }
 
+
 // Static files
 app.use(express.static("public"));
 
@@ -56,6 +60,8 @@ const io = socket(server);
 
 // socket listeners
 io.on("connection", function (socket) {
+  
+  //server logic
   socket.emit('playerConnected', socket.id);
   socket.emit('listRooms',rooms);
   console.log(`${socket.id} has connected`);
@@ -78,5 +84,11 @@ io.on("connection", function (socket) {
 
   socket.on('leaveRoom', function(data){
     leaveRoom(data,socket);
+  });
+  //game logic
+  socket.on('startGame', function(){
+    data = game.startGame(socket);
+    io.to(socket.room_id).emit('gameStarted', data);
+    console.log('game started?')
   })
 });

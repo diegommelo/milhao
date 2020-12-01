@@ -6,7 +6,8 @@ var app = new Vue({
       room_id:'',
       socket: io(),
       rooms:[],
-      player:{}
+      player:{},
+      game:{}
     },
     methods: {
         joinRoom: function(room_id) {
@@ -28,6 +29,9 @@ var app = new Vue({
             } else {
                 return true;
             }
+        },
+        startGame: function(){
+            this.socket.emit('startGame');
         }
     },
     created: function() {
@@ -42,6 +46,9 @@ var app = new Vue({
         });
         this.socket.on('playerConnected', (data) =>{
             this.player.id = data;
+        });
+        this.socket.on('gameStarted', (data) =>{
+            this.game = data;
         });        
     },
   })

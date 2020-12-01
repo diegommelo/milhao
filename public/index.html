@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Socket.io simple chat</title>
+        <title>Trivia Royale</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.css" />
         <link rel="stylesheet" href="css/style.css" />
     </head>
@@ -42,7 +42,21 @@
                 </div>
             </section>
             <section class="section" id="gameroom">
-
+                <p class="title">Game Room</p>
+                <div v-if="game.hasOwnProperty('started')" class="columns">
+                    <div class="column">
+                        <p class="subtitle">{{game.questao.q}}</p>
+                        <button class="button" v-for="resposta in game.questao.a">{{resposta}}</button><br/>
+                    </div>
+                    <div class="column">
+                        <ul>
+                            <li v-for="player in rooms[player.room].sockets">{{player}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <button class="button" @click="startGame">Start</button>
+                </div>
             </section>
         </div>
         <script src="/socket.io/socket.io.js"></script>
